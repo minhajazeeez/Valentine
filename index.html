@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine 💘</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffb6c1, #ffd1dc, #ffe4e1);
+      font-family: "Poppins", cursive;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 28px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      width: min(90vw, 420px);
+    }
+
+    h1 {
+      color: #ff4d6d;
+      margin-bottom: 15px;
+      font-size: 1.7rem;
+    }
+
+    img {
+      width: 100%;
+      max-width: 240px;
+      border-radius: 18px;
+    }
+
+    .buttons {
+      position: relative;
+      height: 110px;
+      margin-top: 25px;
+    }
+
+    button {
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      position: absolute;
+    }
+
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+      left: 60px;
+    }
+
+    #noBtn {
+      background: #adb5bd;
+      color: white;
+      right: 60px;
+    }
+
+    .message {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .hearts {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 26px;
+      animation: float 4s linear infinite;
+    }
+
+    @keyframes float {
+      from {
+        transform: translateY(100vh);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-10vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <!-- MAIN TEXT -->
+    <h1 id="mainText">
+      Will you be my Valentine,<br>
+      Saneea Navas Aslami? 💘
+    </h1>
+
+    <!-- FIRST GIF -->
+    <img
+      id="mainGif"
+      src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGd3Z3BreDh4ZG4zbGpscTgybzgycnowY3h3MG96eXV3YXI3NXZndSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/c5btquHAsI3927BM0B/giphy.gif"
+      alt="cute valentine gif"
+    >
+
+    <div class="buttons" id="buttons">
+      <button id="yesBtn">Yes 💖</button>
+      <button id="noBtn">No 🙃</button>
+    </div>
+
+    <!-- AFTER YES -->
+    <div class="message" id="message">
+      <img
+        src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGJseWp3NmdjeDNibWplcnVpdGhhNmF2eGN2dWd6eHRqeDJ1am03NiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ANjMpBvC9LeRUopsoU/giphy.gif"
+        alt="flying kisses gif"
+      >
+      <h2>
+        Yaayyy!! 💕<br>
+        You made me the happiest man in the world 🥰
+      </h2>
+    </div>
+
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" preload="auto" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4b7c3f9a9c.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const buttons = document.getElementById("buttons");
+    const message = document.getElementById("message");
+    const heartsContainer = document.getElementById("hearts");
+    const bgMusic = document.getElementById("bgMusic");
+    const mainGif = document.getElementById("mainGif");
+    const mainText = document.getElementById("mainText");
+
+    let yesScale = 1;
+
+    // NO button movement (slightly more)
+    noBtn.addEventListener("mouseover", () => {
+      const moveX = Math.random() * 220 - 110;
+      const moveY = Math.random() * 160 - 80;
+
+      noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+      yesScale += 0.12;
+      yesBtn.style.transform = `scale(${yesScale})`;
+    });
+
+    yesBtn.addEventListener("click", async () => {
+      // Remove first view
+      buttons.style.display = "none";
+      mainGif.style.display = "none";
+      mainText.style.display = "none";
+
+      // Show new content
+      message.style.display = "block";
+
+
+      spawnHearts();
+    
+    });
+
+function spawnHearts() {
+
+  // 💥 Instant burst so it starts immediately
+  for (let i = 0; i < 1; i++) {
+    createHeart();
+  }
+
+  // 💗 Continuous hearts
+  setInterval(() => {
+    createHeart();
+  }, 10);
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+
+    // Mixed heart emojis
+    const emojis = ["💗", "💖", "💕", "💞"];
+    heart.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+
+    // Spread across screen
+    heart.style.left = Math.random() * 100 + "vw";
+
+    // Vertical distribution (not all from bottom)
+    heart.style.bottom = Math.random() * 500 + "vh";
+
+    // Long-lasting but fast enough to feel alive
+    heart.style.animationDuration =
+      (Math.random() * 4 + 8) + "s"; // 8–12 seconds
+
+    // Random sizes
+    heart.style.fontSize =
+      (Math.random() * 14 + 18) + "px";
+
+    heartsContainer.appendChild(heart);
+
+    // Cleanup
+    setTimeout(() => {
+      heart.remove();
+    }, 13000);
+  }
+}
+
+
+  </script>
+
+</body>
+</html>
